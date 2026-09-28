@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seven Steps of Moral Reasoning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6f8;--panel:#ffffff;--ink:#1b2333;--mut:#5b6474;--rule:#d9dce3;--acc:#8e2b58;--accink:#ffffff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141822;--panel:#1b2130;--ink:#eceff5;--mut:#a3adbf;--rule:#2f3748;--acc:#e08ab0;--accink:#141822}}
+:root[data-theme="dark"]{--bg:#141822;--panel:#1b2130;--ink:#eceff5;--mut:#a3adbf;--rule:#2f3748;--acc:#e08ab0;--accink:#141822}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:400 1rem/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+header,footer{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem clamp(1.25rem,5vw,4rem);color:var(--mut);font-size:.9rem}
+header{border-bottom:1px solid var(--rule);background:var(--panel)}
+header strong{color:var(--ink);font-weight:600}
+.prog{height:3px;background:var(--rule)}
+.prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .4s ease}
+main{flex:1;display:flex;align-items:center;padding:clamp(1.5rem,5vw,4rem) clamp(1.25rem,5vw,4rem)}
+.stage{width:100%;max-width:1100px;margin:0 auto;display:grid;gap:clamp(1.5rem,4vw,4rem);grid-template-columns:1fr;align-items:start;animation:fade .4s ease}
+@media (min-width:860px){.stage{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.num{font:600 clamp(3.5rem,9vw,6rem)/1 "Source Serif 4",Georgia,serif;color:var(--acc);margin:0 0 .75rem}
+h1{margin:0 0 1rem;font:600 clamp(1.9rem,4.4vw,3rem)/1.12 "Source Serif 4",Georgia,serif;letter-spacing:-.01em}
+.q{margin:0;color:var(--mut);font-size:clamp(1rem,1.8vw,1.15rem);max-width:34ch}
+ul.rows,dl.rows{margin:0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+ul.rows li{padding:1.1rem 0;border-bottom:1px solid var(--rule);font-size:clamp(1rem,1.7vw,1.1rem);line-height:1.65}
+ul.rows b{font-weight:600}
+.two{display:grid}
+@media (min-width:560px){ul.two{grid-template-columns:1fr 1fr;column-gap:2rem}}
+dl.rows>div{padding:1.1rem 0;border-bottom:1px solid var(--rule)}
+dt{color:var(--mut);font-size:.9rem;margin-bottom:.15rem}
+dd{margin:0;font:600 clamp(1.4rem,3.2vw,2rem)/1.25 "Source Serif 4",Georgia,serif}
+footer{border-top:1px solid var(--rule);background:var(--panel);position:sticky;bottom:0}
+nav{display:flex;gap:.4rem;flex-wrap:wrap}
+.tab{min-width:2.25rem;height:2.25rem;padding:0 .5rem;border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--ink);font:500 .9rem Inter,sans-serif;cursor:pointer}
+.tab:hover{border-color:var(--acc)}
+.tab[aria-current="true"]{background:var(--acc);border-color:var(--acc);color:var(--accink)}
+.go{display:flex;gap:.5rem}
+.btn{height:2.25rem;padding:0 1.1rem;border-radius:6px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:500 .9rem Inter,sans-serif;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:disabled{opacity:.35;cursor:default}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media (max-width:640px){footer{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><span><strong>Seven Steps of Moral Reasoning</strong></span><span id="count"></span></header>
+<div class="prog"><i id="fill"></i></div>
+<main><div class="stage" id="stage" aria-live="polite"></div></main>
+<footer>
+  <nav id="tabs" aria-label="Slides"></nav>
+  <div class="go"><button class="btn ghost" id="prev">Previous</button><button class="btn" id="next">Next</button></div>
+</footer>
+<script>
+var S=[
+{intro:1,t:"Seven Steps of Moral Reasoning",q:"Scott Rae's framework, applied to a classmate cheating on an online exam"},
+{t:"Gather the Facts",q:"What happened? Is there a clear ethical issue?",b:[
+"During an online exam, I noticed a classmate switching tabs and copying answers from another window. That is a clear case of cheating.",
+"What I don't know is why they did it. They might be under heavy pressure, or I might have misread what I saw, so I need to avoid jumping to conclusions.",
+"The teacher hasn't noticed, which means my choice may be the only thing that ever brings this to light."]},
+{t:"Determine the Ethical Issues",q:"What are the moral concerns involved?",b:[
+"Honesty: cheating breaks the exam rules and misleads the teacher about what this student really knows.",
+"Fairness: classmates who studied hard are put at a disadvantage if someone earns a better grade unfairly.",
+"Loyalty versus justice: reporting could hurt someone I know, but staying silent lets something wrong continue."]},
+{t:"Choose Relevant Principles",q:"What ethical values or principles apply?",b:[
+"Honesty and integrity: a classroom only works when people can trust that everyone's work is their own.",
+"Fairness and justice: every student deserves to be graded by the same standard.",
+"Compassion and loyalty: my classmate is a real person who may be struggling and deserves care, not only punishment."]},
+{t:"List the Alternatives",q:"What choices do I have?",two:1,b:[
+"Report the cheating to the teacher right away.",
+"Talk to my classmate privately and encourage them to come forward on their own.",
+"Report it anonymously so I stay out of the spotlight.",
+"Stay silent and do nothing."]},
+{t:"Compare Alternatives with Principles",q:"Which options align with ethical values?",b:[
+"Reporting right away honors fairness and honesty, but gives little weight to compassion.",
+"Talking privately first honors compassion and loyalty while still giving my classmate a chance to make it right, though it depends on them to act.",
+"Reporting anonymously protects me from backlash, but it can feel like avoiding responsibility.",
+"Staying silent protects loyalty alone and gives up honesty and fairness, so it fits the fewest principles."]},
+{t:"Assess the Consequences",q:"What are the possible outcomes of each choice?",b:[
+"If I report: my classmate may face a penalty and I may feel guilty or face social fallout, but fairness is restored and the class sees that cheating isn't ignored.",
+"If I talk first: they may admit it and learn from it, or get defensive. Either way, I can still report afterward.",
+"If I stay silent: there is no conflict for me in the short run, but the cheating may continue and I would feel complicit."]},
+{t:"Make a Decision",q:"What will I do and why?",b:[
+"I would talk to my classmate privately first and encourage them to tell the teacher themselves.",
+"If they refuse or brush it off, I would report it to the teacher, because fairness to everyone else matters too much to ignore.",
+"This path lets me show compassion and loyalty without giving up honesty, fairness, and integrity."]}
+];
+var i=0,$=function(x){return document.getElementById(x)};
+var stage=$("stage"),tabs=$("tabs");
+S.forEach(function(_,n){var d=document.createElement("button");d.className="tab";d.textContent=n===0?"Intro":n;d.setAttribute("aria-label",n===0?"Go to introduction":"Go to step "+n);d.onclick=function(){go(n)};tabs.appendChild(d)});
+function fmt(t){var m=t.match(/^([^.:]{2,32}):\s(.*)$/);return m?"<b>"+m[1]+":</b> "+m[2]:t}
+function go(n){
+  i=Math.max(0,Math.min(S.length-1,n));var s=S[i];
+  var left='<div>'+(s.intro?'':'<p class="num">'+i+'</p>')+'<h1>'+s.t+'</h1><p class="q">'+s.q+'</p></div>';
+  var right=s.intro?
+    '<dl class="rows"><div><dt>Presented by</dt><dd>Lawrenz Josh A. Mamparo</dd></div><div><dt>Section</dt><dd>BSIT-4B</dd></div></dl>':
+    '<ul class="rows'+(s.two?' two':'')+'">'+s.b.map(function(b){return '<li>'+fmt(b)+'</li>'}).join("")+'</ul>';
+  stage.style.animation="none";void stage.offsetWidth;stage.style.animation="";
+  stage.innerHTML=left+right;
+  $("fill").style.width=(i/(S.length-1)*100)+"%";
+  $("count").textContent=i===0?"Introduction":"Step "+i+" of "+(S.length-1);
+  Array.prototype.forEach.call(tabs.children,function(d,k){d.setAttribute("aria-current",k===i?"true":"false")});
+  $("prev").disabled=i===0;
+  $("next").textContent=i===S.length-1?"Start over":"Next";
+  window.scrollTo(0,0);
+}
+$("prev").onclick=function(){go(i-1)};
+$("next").onclick=function(){go(i===S.length-1?0:i+1)};
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowRight"){$("next").click()}else if(e.key==="ArrowLeft"){$("prev").click()}
+});
+var x0=null;
+document.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});
+document.addEventListener("touchend",function(e){
+  if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;
+  if(Math.abs(dx)>60){dx<0?(i<S.length-1&&go(i+1)):go(i-1)}
+},{passive:true});
+go(0);
+</script>
+</body>
+</html>
